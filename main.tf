@@ -10,13 +10,13 @@ provider "azurerm" {
   features {}
 }
 
-# ✅ RESOURCE GROUP
+# RESOURCE GROUP
 resource "azurerm_resource_group" "rg" {
   name     = "MYWEB_RG"
   location = "centralindia"
 }
 
-# ✅ VNET
+#  VNET
 resource "azurerm_virtual_network" "vnet" {
   name                = "my-vnet"
   location            = azurerm_resource_group.rg.location
@@ -24,7 +24,7 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = ["10.0.0.0/16"]
 }
 
-# ✅ SUBNET
+# SUBNET
 resource "azurerm_subnet" "subnet" {
   name                 = "my-subnet"
   resource_group_name  = azurerm_resource_group.rg.name
@@ -32,7 +32,7 @@ resource "azurerm_subnet" "subnet" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-# ✅ SQL SERVER
+#  SQL SERVER
 resource "azurerm_mssql_server" "sqlserver" {
   name                         = "my-sql-server-aura123"
   resource_group_name          = azurerm_resource_group.rg.name
@@ -42,14 +42,14 @@ resource "azurerm_mssql_server" "sqlserver" {
   administrator_login_password = "P@ssword1234!"
 }
 
-# ✅ SQL DATABASE
+#  SQL DATABASE
 resource "azurerm_mssql_database" "sqldb" {
   name      = "my-sqldb"
   server_id = azurerm_mssql_server.sqlserver.id
   sku_name  = "Basic"
 }
 
-# ✅ ✅ FIREWALL FIX (NO CONNECTION ISSUE)
+#  FIREWALL FIX (NO CONNECTION ISSUE)
 resource "azurerm_mssql_firewall_rule" "allow_azure" {
   name             = "AllowAzure"
   server_id        = azurerm_mssql_server.sqlserver.id
@@ -57,7 +57,7 @@ resource "azurerm_mssql_firewall_rule" "allow_azure" {
   end_ip_address   = "0.0.0.0"
 }
 
-# ✅ PUBLIC IP
+# PUBLIC IP
 resource "azurerm_public_ip" "pip" {
   name                = "lb-ip"
   resource_group_name = azurerm_resource_group.rg.name
@@ -66,7 +66,7 @@ resource "azurerm_public_ip" "pip" {
   sku                 = "Standard"
 }
 
-# ✅ LOAD BALANCER
+#  LOAD BALANCER
 resource "azurerm_lb" "lb" {
   name                = "lb"
   location            = azurerm_resource_group.rg.location
@@ -79,13 +79,13 @@ resource "azurerm_lb" "lb" {
   }
 }
 
-# ✅ BACKEND POOL
+#  BACKEND POOL
 resource "azurerm_lb_backend_address_pool" "pool" {
   loadbalancer_id = azurerm_lb.lb.id
   name            = "backend"
 }
 
-# ✅ STABLE HTTP PROBE (NO BUG)
+#  STABLE HTTP PROBE (NO BUG)
 resource "azurerm_lb_probe" "probe" {
   loadbalancer_id = azurerm_lb.lb.id
   name            = "probe"
@@ -94,7 +94,7 @@ resource "azurerm_lb_probe" "probe" {
   request_path    = "/"
 }
 
-# ✅ LB RULE (STABLE ORDER)
+#  LB RULE (STABLE ORDER)
 resource "azurerm_lb_rule" "rule" {
   depends_on = [azurerm_lb_probe.probe]
 
@@ -108,7 +108,7 @@ resource "azurerm_lb_rule" "rule" {
   probe_id                       = azurerm_lb_probe.probe.id
 }
 
-# ✅ NSG
+#  NSG
 resource "azurerm_network_security_group" "nsg" {
   name                = "vmss-nsg"
   location            = azurerm_resource_group.rg.location
@@ -127,13 +127,13 @@ resource "azurerm_network_security_group" "nsg" {
   }
 }
 
-# ✅ NSG ASSOCIATION
+#  NSG ASSOCIATION
 resource "azurerm_subnet_network_security_group_association" "nsg_assoc" {
   subnet_id                 = azurerm_subnet.subnet.id
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
 
-# ✅ VMSS (FULLY FIXED)
+#  VMSS (FULLY FIXED)
 resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   name                = "vmss"
   resource_group_name = azurerm_resource_group.rg.name
@@ -250,7 +250,7 @@ EOF
   }
 }
 
-# ✅ OUTPUT
+# OUTPUT
 output "public_ip" {
   value = azurerm_public_ip.pip.ip_address
 }
