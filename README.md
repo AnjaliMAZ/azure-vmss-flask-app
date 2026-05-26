@@ -35,3 +35,8 @@ This project includes real-world troubleshooting of:
 ```bash
 terraform init
 terraform apply
+
+
+
+## License & Usage
+This project is for learning purposes. Please do not copy without proper attribution.
