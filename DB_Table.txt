@@ -1,7 +1,7 @@
 ﻿NEXT STEP :2 :create the table in Azure SQL
 
 
-You need to create the table in Azure SQL
+You need to create the table in Azure SQL 
 
  Step 1: Go to Azure Portal
  Open:
