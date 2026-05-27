@@ -39,7 +39,7 @@ resource "azurerm_mssql_server" "sqlserver" {
   location                     = azurerm_resource_group.rg.location
   version                      = "12.0"
   administrator_login          = "sqladminaura"
-  administrator_login_password = "P@ssword1234!"
+  administrator_login_password = "********"
 }
 
 #  SQL DATABASE
@@ -142,7 +142,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   instances           = 2
 
   admin_username = "azureaura"
-  admin_password = "P@ssword1234!"
+  admin_password = "*********"
 
   disable_password_authentication = false
 
@@ -174,7 +174,7 @@ conn = pyodbc.connect(
     'SERVER=my-sql-server-aura123.database.windows.net,1433;'
     'DATABASE=my-sqldb;'
     'UID=sqladminaura;'
-    'PWD=P@ssword1234!'
+    'PWD=************'
 )
 
 @app.route('/save', methods=['POST'])
